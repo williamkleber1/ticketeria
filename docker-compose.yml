@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  banco-ticketeria:
+    image: postgres:12.6
+    container_name: banco-ticketeria
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ticketeria-db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin1234
+    ports:
+      - "1515:5432"
