@@ -18,6 +18,8 @@
 
 [Google Docs](https://docs.google.com/document/d/1Hajk05dVn5nzx_WW6zfrFla-k8NoVPrgyROSw9Y8uoc/edit?usp=sharing) : Documento com os requisitos do sistema
 
+[Modelo ER](https://github.com/williamkleber1/ticketeria/blob/main/documentation/modelo_er.png) : Modelo de entidade e relacionamento do projeto
+
 
 
 ## 🚀 Instalando Ticketeria
@@ -57,7 +59,6 @@ yarn start
 
 ## 🤝 Colaboradores
 
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
 
 <table>
   <tr>
