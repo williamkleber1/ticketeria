@@ -1,46 +1,37 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import { createConnection } from "typeorm";
 import * as express from "express";
-import * as bodyParser from "body-parser";
-import {Request, Response} from "express";
-import {User} from "./database/entity/User";
-import { Institute } from "./database/entity/Institute";
-import { router } from "./routes";
+import * as helmet from "helmet";
+import * as cors from "cors";
+import { routes } from "./routes/index";
+import { User } from "./database/entity/User"
 
 
-createConnection().then(async connection => {
-
-    // create express app
+//Connects to the Database -> then starts the express
+createConnection()
+  .then(async connection => {
+    // Create a new express application instance
     const app = express();
-    app.use(bodyParser.json());
-    app.use(router)
 
-    
-    
-    // start express server
-    app.listen(3000);
+    // Call midlewares
+    app.use(cors());
+    app.use(helmet());
+    app.use(express.json());
 
-    // // insert new users for test
+    //Set all routes from routes folder
+    app.use("/", routes);
+
+    app.listen(3003, () => {
+      console.log("Server started on port 3000!");
+    });
+
+    // insert new users for test
     // await connection.manager.save(connection.manager.create(User, {
-    //     firstName: "Timber",
-    //     lastName: "Saw",
-    //     age: 27
+    //     username: "william",
+    //     password: "1234",
+    //     role: "ADMIN",
+    //     name: "William Kleber Alves Dos Santos",
+    //     email: "william@mail.com"
     // }));
-    // await connection.manager.save(connection.manager.create(User, {
-    //     firstName: "Phantom",
-    //     lastName: "Assassin",
-    //     age: 24
-    // }));
-
-    // await connection.manager.save(connection.manager.create(Institute, {
-    //    adress:"rua dos cornos numero 0",
-    //    cnpj: "654736/0001-64",
-    //    corporate_name: "Teste empresa546",
-    //    denomination: "demo 1",
-    //    email: "gdfuyw@mail.com",
-    //    phone: "663-4233-2233",
-    // }));
-
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
-
-}).catch(error => console.log(error));
+  })
+  .catch(error => console.log(error));
