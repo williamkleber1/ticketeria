@@ -53,8 +53,6 @@ static newUser = async (req: Request, res: Response) => {
     return;
   }
 
-  //Hash the password, to securely store on DB
-  user.hashPassword();
 
   //Try to save. If fails, the username is already in use
   const userRepository = getRepository(User);
