@@ -1,14 +1,10 @@
-import { Router } from 'express';
+import { Router, Request, Response } from "express";
+import auth from "./auth";
+import user from "./user";
 
-//import { userRoutes } from './user.routes';
-//import { productsRoutes } from './products.routes';
-//import { purchasesRoutes } from './purchases.routes';
+const routes = Router();
 
+routes.use("/auth", auth);
+routes.use("/user", user);
 
-const router = Router();
-
-// router.use("/users", userRoutes);
-// router.use("/products", productsRoutes);
-// router.use("/purchases", purchasesRoutes);
-
-export { router };
+export { routes};
