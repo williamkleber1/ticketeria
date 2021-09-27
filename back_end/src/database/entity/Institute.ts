@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Event } from "./Event";
 import { ITimeStamp } from "./TimeStamp";
 
 @Entity()
@@ -33,6 +34,8 @@ export class Institute extends ITimeStamp {
 
     @Column()
     phone: string
+
+    @OneToMany(type => Event, event => event.id) events: Event[];
 
 
 }

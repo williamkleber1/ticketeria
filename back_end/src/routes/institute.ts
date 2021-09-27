@@ -16,7 +16,7 @@ import { checkRole } from "../middlewares/checkRole";
   );
 
   //Create a new institute
-  router.post("/", InstituteController.newUser);
+  router.post("/", InstituteController.newInstitute);
 
   //Edit one institute
   router.patch(

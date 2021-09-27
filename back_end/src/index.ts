@@ -21,8 +21,8 @@ createConnection()
     //Set all routes from routes folder
     app.use("/", routes);
 
-    app.listen(3333, () => {
-      console.log("Server started on port 3333!");
+    app.listen(3000, () => {
+      console.log("Server started on port 3000!");
     });
 
     // insert new users for test

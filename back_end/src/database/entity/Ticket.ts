@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToMany} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToMany, ManyToOne } from "typeorm";
 import { Event } from "./Event";
 import { Institute } from "./Institute";
 import { ITimeStamp } from "./TimeStamp";
@@ -11,26 +11,32 @@ export class Ticket extends ITimeStamp {
     id: number;
 
     @Column({
-        length:300
+        length: 300,
+        nullable: true
     })
-    observation : string;
+    observation: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     lote: number
 
-    @Column()
+    @Column({
+        nullable: true,
+        type: "float"
+    })
     price: number
 
-    @ManyToMany(()=> Event)
+    @ManyToOne(() => Event)
     @JoinColumn()
     event: Event
 
-    @ManyToMany(()=> User)
+    @ManyToOne(() => User)
     @JoinColumn()
     user: User
 
     constructor() {
         super();
-      }
-    
+    }
+
 }

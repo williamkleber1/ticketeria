@@ -13,38 +13,54 @@ static listAll = async (req: Request, res: Response) => {
   const users = await userRepository.find({
     select: ["id", "username", "role", "name", "email"] 
   });
+  console.log(users.length)
 
   //Send the users object
   res.send(users);
 };
 
+static getMe = async (req: Request, res: Response) => {
+  //Get the ID from the token
+  const id = res.locals.jwtPayload.userId;
+  const userRepository = getRepository(User);
+  try {
+    const user = await userRepository.findOneOrFail(id, {
+      select: ["id", "username", "role", "name", "email"]
+    });
+    res.status(201).send(user)
+
+  } catch (error) {
+    res.status(404).send({"message":"User not found"});
+  }
+};
+
+
 static getOneById = async (req: Request, res: Response) => {
   //Get the ID from the url
   const id: number = Number(req.params.id);
-  console.log('========= user control==============')
-  
-
 
   //Get the user from database
   const userRepository = getRepository(User);
   try {
     const user = await userRepository.findOneOrFail(id, {
-      select: ["id", "username", "role", "name", "email"] 
+      select: ["id", "username", "role", "name", "email"]
     });
     res.status(201).send(user)
 
   } catch (error) {
-    res.status(404).send("User not found");
+    res.status(404).send({"message":"User not found"});
   }
 };
 
 static newUser = async (req: Request, res: Response) => {
   //Get parameters from the body
-  let { username, password, role } = req.body;
+  let { username, password, role, name, email } = req.body;
   let user = new User();
   user.username = username;
   user.password = password;
   user.role = role;
+  user.name = name;
+  user.email = email;
 
   //Validade if the parameters are ok
   const errors = await validate(user);
@@ -59,12 +75,12 @@ static newUser = async (req: Request, res: Response) => {
   try {
     await userRepository.save(user);
   } catch (e) {
-    res.status(409).send("username already in use");
+    res.status(409).send({"message":"username already in use"});
     return;
   }
 
   //If all ok, send 201 response
-  res.status(201).send("User created");
+  res.status(201).send({"message":"User created"});
 };
 
 static editUser = async (req: Request, res: Response) => {
@@ -81,7 +97,7 @@ static editUser = async (req: Request, res: Response) => {
     user = await userRepository.findOneOrFail(id);
   } catch (error) {
     //If not found, send a 404 response
-    res.status(404).send("User not found");
+    res.status(404).send({"message":"User not found"});
     return;
   }
 
@@ -98,7 +114,7 @@ static editUser = async (req: Request, res: Response) => {
   try {
     await userRepository.save(user);
   } catch (e) {
-    res.status(409).send("username already in use");
+    res.status(409).send({"message":"username already in use"});
     return;
   }
   //After all send a 204 (no content, but accepted) response
@@ -114,7 +130,7 @@ static deleteUser = async (req: Request, res: Response) => {
   try {
     user = await userRepository.findOneOrFail(id);
   } catch (error) {
-    res.status(404).send("User not found");
+    res.status(404).send({"message":"User not found"});
     return;
   }
   userRepository.delete(id);

@@ -8,6 +8,9 @@ import { checkRole } from "../middlewares/checkRole";
   //Get all users
   router.get("/", [checkJwt, checkRole(["ADMIN"])], UserController.listAll);
 
+  //Get Logged user
+  router.get("/me", [checkJwt], UserController.getMe);
+
   // Get one user
   router.get(
     "/:id",

@@ -30,11 +30,11 @@ class InstituteController {
             res.status(201).send(institute)
 
         } catch (error) {
-            res.status(404).send("Institute not found");
+            res.status(404).send({"message":"Institute not found"});
         }
     };
 
-    static newUser = async (req: Request, res: Response) => {
+    static newInstitute = async (req: Request, res: Response) => {
         //Get parameters from the body
         let { denomination, corporate_name, cnpj, adress, email, phone } = req.body;
         let institute = new Institute();
@@ -58,12 +58,12 @@ class InstituteController {
         try {
             await InstituteRepository.save(institute);
         } catch (e) {
-            res.status(409).send("cnpj already in use");
+            res.status(409).send({"message":"cnpj already in use"});
             return;
         }
 
         //If all ok, send 201 response
-        res.status(201).send("Institute created");
+        res.status(201).send({"message":"Institute created"});
     };
 
     static editInstitute = async (req: Request, res: Response) => {
@@ -80,7 +80,7 @@ class InstituteController {
             institute = await InstituteRepository.findOneOrFail(id);
         } catch (error) {
             //If not found, send a 404 response
-            res.status(404).send("Institute not found");
+            res.status(404).send({"message":"Institute not found"});
             return;
         }
 
@@ -117,7 +117,7 @@ class InstituteController {
         try {
             institute = await InstituteRepository.findOneOrFail(id);
         } catch (error) {
-            res.status(404).send("Institute not found");
+            res.status(404).send({"message":"Institute not found"});
             return;
         }
         InstituteRepository.delete(id);
